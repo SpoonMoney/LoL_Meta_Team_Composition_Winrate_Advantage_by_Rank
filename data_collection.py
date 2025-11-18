@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 import time
 import json
+import glob
 
 # --- CONFIGURATION ---
 API_KEY = "###################################" # replace with your API key
@@ -122,3 +123,80 @@ except KeyboardInterrupt:
     print("\nScript interrupted by user. Exiting...")
 
 print("\n--- SCRIPT FINISHED ---")
+
+
+print("--- Starting Final Prep Script ---")
+
+# --- FIND AND COMBINE ALL CSVs ---
+# Find all files that match the pattern
+all_csv_files = glob.glob('lol_match_data_*.csv')
+print(f"Found files: {all_csv_files}")
+
+# Read each CSV and store it in a list of DataFrames
+df_list = []
+for file in all_csv_files:
+    df_list.append(pd.read_csv(file))
+
+# Combine them into one giant DataFrame
+df = pd.concat(df_list, ignore_index=True)
+
+print(f"\n--- Combined All Data ---")
+print(f"Total rows in master dataset: {len(df)}")
+
+
+# --- RUN ANALYSIS ---
+# Calculate 'meta_score' for each champion
+print("Calculating champion win rates...")
+meta_score_map = df.groupby('championName')['win'].mean().to_dict()
+df['meta_score'] = df['championName'].map(meta_score_map)
+
+# Calculate team meta scores
+print("Calculating team meta scores...")
+team_scores = df.groupby(['matchId', 'tier_scraped_from', 'rank_scraped_from', 'teamId'])['meta_score'].sum().reset_index()
+
+# Pivot the data
+print("Pivoting data...")
+team_scores_pivot = team_scores.pivot(
+    index=['matchId', 'tier_scraped_from', 'rank_scraped_from'],
+    columns='teamId',
+    values='meta_score'
+).reset_index()
+team_scores_pivot.columns.names = [None]
+team_scores_pivot = team_scores_pivot.rename(
+    columns={100: 'blue_meta_score', 200: 'red_meta_score'}
+)
+
+# Get match winners
+print("Merging winner data...")
+match_winners = df[df['teamId'] == 100].groupby('matchId')['win'].first()
+analysis_df = team_scores_pivot.merge(match_winners, on='matchId')
+analysis_df = analysis_df.rename(columns={'win': 'did_blue_team_win'})
+
+# Define core logic function
+def get_meta_winner(row):
+    if row['blue_meta_score'] > row['red_meta_score']:
+        return row['did_blue_team_win']
+    elif row['red_meta_score'] > row['blue_meta_score']:
+        return not row['did_blue_team_win']
+    else:
+        return None
+
+print("Calculating final 'did_meta_team_win' column...")
+analysis_df['did_meta_team_win'] = analysis_df.apply(get_meta_winner, axis=1)
+
+# Drop rows where scores were tied
+analysis_df = analysis_df.dropna(subset=['did_meta_team_win'])
+
+# --- SAVE THE FINAL FILE FOR TABLEAU ---
+output_filename = 'final_analysis_for_tableau.csv'
+columns_to_save = [
+    'matchId',
+    'tier_scraped_from',
+    'rank_scraped_from',
+    'did_meta_team_win'
+]
+analysis_df[columns_to_save].to_csv(output_filename, index=False)
+
+print(f"\n--- SUCCESS! ---")
+print(f"Final analysis-ready file saved as: {output_filename}")
+print("Download this one file and open it in Tableau.")
