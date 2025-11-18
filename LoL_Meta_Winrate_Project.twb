@@ -1,0 +1,403 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20252.25.1003.1601                               -->
+<workbook original-version='18.1' source-build='2025.2.4 (20252.25.1003.1601)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <AnimationOnByDefault />
+    <MarkAnimation />
+    <ObjectModelEncapsulateLegacy />
+    <ObjectModelTableType />
+    <SchemaViewerObjectModel />
+    <SheetIdentifierTracking />
+    <SortTagCleanup />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='final_analysis_for_tableau' inline='true' name='federated.0tzsv9m1kux3e10zy6bis017c1v2' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='final_analysis_for_tableau' name='textscan.03eml7l16cqfdq1gawpcl12wvwo0'>
+            <connection class='textscan' directory='C:/Users/reese/Downloads' filename='final_analysis_for_tableau.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.03eml7l16cqfdq1gawpcl12wvwo0' name='final_analysis_for_tableau.csv' table='[final_analysis_for_tableau#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='matchId' ordinal='0' />
+            <column datatype='string' name='tier_scraped_from' ordinal='1' />
+            <column datatype='string' name='rank_scraped_from' ordinal='2' />
+            <column datatype='boolean' name='did_meta_team_win' ordinal='3' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[final_analysis_for_tableau.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>matchId</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[matchId]</local-name>
+            <parent-name>[final_analysis_for_tableau.csv]</parent-name>
+            <remote-alias>matchId</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <object-id>[final_analysis_for_tableau.csv_CF0FBA4FB2C34228805809EC4E537A7D]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>tier_scraped_from</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[tier_scraped_from]</local-name>
+            <parent-name>[final_analysis_for_tableau.csv]</parent-name>
+            <remote-alias>tier_scraped_from</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <object-id>[final_analysis_for_tableau.csv_CF0FBA4FB2C34228805809EC4E537A7D]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>rank_scraped_from</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[rank_scraped_from]</local-name>
+            <parent-name>[final_analysis_for_tableau.csv]</parent-name>
+            <remote-alias>rank_scraped_from</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <object-id>[final_analysis_for_tableau.csv_CF0FBA4FB2C34228805809EC4E537A7D]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>did_meta_team_win</remote-name>
+            <remote-type>11</remote-type>
+            <local-name>[did_meta_team_win]</local-name>
+            <parent-name>[final_analysis_for_tableau.csv]</parent-name>
+            <remote-alias>did_meta_team_win</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>boolean</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[final_analysis_for_tableau.csv_CF0FBA4FB2C34228805809EC4E537A7D]</object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Meta Win Rate (Num)' datatype='integer' default-format='p0.00%' name='[Calculation_519321339512672256]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='IF [did_meta_team_win] THEN 1 ELSE 0 END' />
+      </column>
+      <column caption='Net Meta Advantage' datatype='real' name='[Calculation_717761198296604672]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='AVG([Calculation_519321339512672256]) - (1 - AVG([Calculation_519321339512672256]))' />
+      </column>
+      <column caption='final_analysis_for_tableau.csv' datatype='table' name='[__tableau_internal_object_id__].[final_analysis_for_tableau.csv_CF0FBA4FB2C34228805809EC4E537A7D]' role='measure' type='quantitative' />
+      <column caption='Did Meta Team Win' datatype='boolean' name='[did_meta_team_win]' role='dimension' type='nominal' />
+      <column caption='Match Id' datatype='string' name='[matchId]' role='dimension' type='nominal' />
+      <column caption='Rank Scraped From' datatype='string' name='[rank_scraped_from]' role='dimension' type='nominal' />
+      <column caption='Player Rank' datatype='string' name='[tier_scraped_from]' role='dimension' type='nominal' />
+      <column-instance column='[tier_scraped_from]' derivation='None' name='[none:tier_scraped_from:nk]' pivot='key' type='nominal' />
+      <layout dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[Calculation_717761198296604672]' type='custom-interpolated'>
+            <color-palette custom='true' name='' type='ordered-sequential'>
+              <color>#f1f1f1</color>
+              <color>#d6dee6</color>
+              <color>#bdccdb</color>
+              <color>#a5bbd0</color>
+              <color>#8faac5</color>
+              <color>#7a9aba</color>
+              <color>#678baf</color>
+              <color>#567da4</color>
+              <color>#456f99</color>
+              <color>#37638e</color>
+              <color>#2a5783</color>
+            </color-palette>
+          </encoding>
+          <encoding attr='color' field='[none:tier_scraped_from:nk]' palette='tableau20_10_0' type='palette'>
+            <map to='#59a14f'>
+              <bucket>&quot;EMERALD&quot;</bucket>
+            </map>
+            <map to='#79706e'>
+              <bucket>&quot;IRON&quot;</bucket>
+            </map>
+            <map to='#86bcb6'>
+              <bucket>&quot;PLATINUM&quot;</bucket>
+            </map>
+            <map to='#9d7660'>
+              <bucket>&quot;BRONZE&quot;</bucket>
+            </map>
+            <map to='#a0cbe8'>
+              <bucket>&quot;DIAMOND&quot;</bucket>
+            </map>
+            <map to='#bab0ac'>
+              <bucket>&quot;SILVER&quot;</bucket>
+            </map>
+            <map to='#f1ce63'>
+              <bucket>&quot;GOLD&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+      <default-sorts>
+        <manual-sort column='[none:tier_scraped_from:nk]' direction='ASC'>
+          <dictionary>
+            <bucket>&quot;IRON&quot;</bucket>
+            <bucket>&quot;BRONZE&quot;</bucket>
+            <bucket>&quot;SILVER&quot;</bucket>
+            <bucket>&quot;GOLD&quot;</bucket>
+            <bucket>&quot;PLATINUM&quot;</bucket>
+            <bucket>&quot;EMERALD&quot;</bucket>
+            <bucket>&quot;DIAMOND&quot;</bucket>
+          </dictionary>
+        </manual-sort>
+      </default-sorts>
+      <object-graph>
+        <objects>
+          <object caption='final_analysis_for_tableau.csv' id='final_analysis_for_tableau.csv_CF0FBA4FB2C34228805809EC4E537A7D'>
+            <properties context=''>
+              <relation connection='textscan.03eml7l16cqfdq1gawpcl12wvwo0' name='final_analysis_for_tableau.csv' table='[final_analysis_for_tableau#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+                  <column datatype='string' name='matchId' ordinal='0' />
+                  <column datatype='string' name='tier_scraped_from' ordinal='1' />
+                  <column datatype='string' name='rank_scraped_from' ordinal='2' />
+                  <column datatype='boolean' name='did_meta_team_win' ordinal='3' />
+                </columns>
+              </relation>
+            </properties>
+          </object>
+        </objects>
+      </object-graph>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Net Meta Advantage'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run><![CDATA[<Sheet Name> for "Meta Team" Compositions by ELO Rank]]></run>
+          </formatted-text>
+        </title>
+        <caption>
+          <formatted-text>
+            <run>Meta Team: The team that consists of champions with a higher average winrate than the opposing team. Percentage shows how much more the &quot;Meta Team&quot; wins against a team with less meta champions at each different ELO rank.
+-LoL Patch 25.22</run>
+          </formatted-text>
+        </caption>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='final_analysis_for_tableau' name='federated.0tzsv9m1kux3e10zy6bis017c1v2' />
+          </datasources>
+          <datasource-dependencies datasource='federated.0tzsv9m1kux3e10zy6bis017c1v2'>
+            <column caption='Meta Win Rate (Num)' datatype='integer' default-format='p0.00%' name='[Calculation_519321339512672256]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='IF [did_meta_team_win] THEN 1 ELSE 0 END' />
+            </column>
+            <column caption='Net Meta Advantage' datatype='real' name='[Calculation_717761198296604672]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='AVG([Calculation_519321339512672256]) - (1 - AVG([Calculation_519321339512672256]))' />
+            </column>
+            <column caption='Did Meta Team Win' datatype='boolean' name='[did_meta_team_win]' role='dimension' type='nominal' />
+            <column-instance column='[tier_scraped_from]' derivation='None' name='[none:tier_scraped_from:nk]' pivot='key' type='nominal' />
+            <column caption='Player Rank' datatype='string' name='[tier_scraped_from]' role='dimension' type='nominal' />
+            <column-instance column='[Calculation_717761198296604672]' derivation='User' name='[usr:Calculation_717761198296604672:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='cell'>
+            <format attr='text-format' field='[federated.0tzsv9m1kux3e10zy6bis017c1v2].[usr:Calculation_717761198296604672:qk]' value='p0.0%' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='text-format' field='[federated.0tzsv9m1kux3e10zy6bis017c1v2].[usr:Calculation_717761198296604672:qk]' value='p0.0%' />
+          </style-rule>
+          <style-rule element='mark'>
+            <encoding attr='color' center='0.0' field='[federated.0tzsv9m1kux3e10zy6bis017c1v2].[usr:Calculation_717761198296604672:qk]' palette='blue_10_0' type='interpolated' />
+          </style-rule>
+          <style-rule element='worksheet'>
+            <format attr='display-field-labels' scope='cols' value='false' />
+          </style-rule>
+          <style-rule element='refline'>
+            <format attr='fill-above' id='refline0' value='#00000000' />
+            <format attr='fill-below' id='refline0' value='#00000000' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.0tzsv9m1kux3e10zy6bis017c1v2].[none:tier_scraped_from:nk]' />
+              <text column='[federated.0tzsv9m1kux3e10zy6bis017c1v2].[usr:Calculation_717761198296604672:qk]' />
+            </encodings>
+            <reference-line axis-column='[federated.0tzsv9m1kux3e10zy6bis017c1v2].[usr:Calculation_717761198296604672:qk]' enable-instant-analytics='true' formula='constant' id='refline0' label-type='none' scope='per-pane' value='0.0' value-column='[federated.0tzsv9m1kux3e10zy6bis017c1v2].[usr:Calculation_717761198296604672:qk]' z-order='1' />
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='has-stroke' value='true' />
+                <format attr='stroke-color' value='#666666' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.0tzsv9m1kux3e10zy6bis017c1v2].[usr:Calculation_717761198296604672:qk]</rows>
+        <cols>[federated.0tzsv9m1kux3e10zy6bis017c1v2].[none:tier_scraped_from:nk]</cols>
+      </table>
+      <simple-id uuid='{067FF859-28B3-4C20-A0A4-77FA07CB8ABA}' />
+    </worksheet>
+  </worksheets>
+  <windows saved-dpi-scale-factor='1.25' source-height='37'>
+    <window class='worksheet' maximized='true' name='Net Meta Advantage'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card pane-specification-id='0' param='[federated.0tzsv9m1kux3e10zy6bis017c1v2].[none:tier_scraped_from:nk]' type='color' />
+          </strip>
+        </edge>
+        <edge name='bottom'>
+          <strip size='92'>
+            <card type='caption' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <zoom type='fit-width' />
+        <highlight>
+          <color-one-way>
+            <field>[federated.0tzsv9m1kux3e10zy6bis017c1v2].[none:tier_scraped_from:nk]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{39E9915F-6490-4845-B76D-4AF87C135E58}' />
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Net Meta Advantage' width='192'>
+      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
+    </thumbnail>
+  </thumbnails>
+</workbook>
