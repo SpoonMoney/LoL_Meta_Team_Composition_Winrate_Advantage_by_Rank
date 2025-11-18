@@ -33,7 +33,7 @@ My analysis reveals that playing a "Meta" composition provides a significant sta
 
 *(Below is a static preview of the Net Advantage analysis)*
 
-![Net Meta Advantage Chart](./image_0968f3.png)
+![Net Meta Advantage Chart](Net_Meta_Advantage.png)
 *Figure 1: The "Net Advantage" chart normalizes win rates against a 0% baseline. A positive bar indicates how much MORE often the Meta team wins compared to the Off-Meta team.*
 
 ---
