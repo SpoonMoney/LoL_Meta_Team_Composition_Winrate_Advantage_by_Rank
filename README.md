@@ -54,7 +54,7 @@ $$\text{Team Score} = \sum (\text{Top} + \text{Jungle} + \text{Mid} + \text{ADC}
 Instead of plotting raw win rates (which hover around 50% due to the game's zero-sum nature), I calculated the **Net Advantage**:
 $$\text{Net Advantage} = \text{Meta Team Win Rate} - \text{Off Meta Team Win Rate}$$
 *Example:* If Meta teams win 56% of the time, the Off-Meta team wins 44% of the time.
-$$56\% - 44\% = \mathbf{+12\% \text{ Advantage}}$$
+56%−44%=+12% Advantage
 
 ---
 
