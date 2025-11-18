@@ -1,0 +1,124 @@
+import requests
+import pandas as pd
+import time
+import json
+
+# --- CONFIGURATION ---
+API_KEY = "###################################" # replace with your API key
+headers = {"X-Riot-Token": API_KEY}
+ROUTING_REGION = "americas"
+PLATFORM_REGION = "na1"
+
+TIERS_TO_SCRAPE = ['IRON', 'BRONZE', 'SILVER', 'GOLD', 'PLATINUM', 'EMERALD', 'DIAMOND']
+DIVISIONS_TO_SCRAPE = ['I', 'II', 'III', 'IV']
+
+PLAYERS_PER_RANK_PAGE = 50
+
+MATCHES_PER_PLAYER = 15
+
+print("--- Starting Data Collection Script ---")
+
+# --- MAIN LOOP ---
+
+try:
+    # Iterate over each TIER
+    for tier in TIERS_TO_SCRAPE:
+
+        current_tier_data = []
+        print(f"\n--- Processing Tier: {tier} ---")
+
+        # Iterate over each DIVISION
+        for division in DIVISIONS_TO_SCRAPE:
+
+            current_rank = f"{tier} {division}"
+            print(f"--- Processing Rank: {current_rank} ---")
+
+            # Get Player List
+            try:
+                player_list_url = f"https://{PLATFORM_REGION}.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/{tier}/{division}"
+
+                response_players = requests.get(player_list_url, headers=headers, params={'page': 1})
+                response_players.raise_for_status() # Raise error if status is 4xx or 5xx
+
+                player_list = response_players.json()
+                player_list_sample = player_list[:PLAYERS_PER_RANK_PAGE]
+                print(f"Successfully fetched {len(player_list_sample)} players for {current_rank}.")
+
+            except requests.exceptions.RequestException as e:
+                print(f"Error fetching player list for {current_rank}: {e}")
+                time.sleep(10) # Wait 10s on an error and skip
+                continue
+
+            time.sleep(1.2) # API rate limit
+
+            # Iterate over each PLAYER
+            for player in player_list_sample:
+                player_puuid = player['puuid']
+
+                # Get Match List for Player
+                try:
+                    match_list_url = f"https://{ROUTING_REGION}.api.riotgames.com/lol/match/v5/matches/by-puuid/{player_puuid}/ids"
+                    response_matches = requests.get(match_list_url, headers=headers, params={'count': MATCHES_PER_PLAYER, 'queue': 420})
+                    response_matches.raise_for_status()
+                    match_ids = response_matches.json()
+
+                except requests.exceptions.RequestException as e:
+                    print(f"Error fetching match list for {player_puuid}: {e}")
+                    time.sleep(1.2)
+                    continue
+
+                time.sleep(1.2) # API rate limit
+
+                # Iterate over each MATCH ID
+                for match_id in match_ids:
+
+                    # Get Match Details
+                    try:
+                        print(f"Fetching details for match: {match_id} (Rank: {current_rank})")
+                        match_details_url = f"https://{ROUTING_REGION}.api.riotgames.com/lol/match/v5/matches/{match_id}"
+
+                        response_details = requests.get(match_details_url, headers=headers)
+                        response_details.raise_for_status()
+                        match_data = response_details.json()
+
+                        # TRANSFORM DATA
+                        for participant in match_data['info']['participants']:
+                            player_data = {
+                                'matchId': match_id,
+                                'tier_scraped_from': tier,
+                                'rank_scraped_from': current_rank,
+                                'championName': participant['championName'],
+                                'teamId': participant['teamId'],
+                                'win': participant['win']
+                            }
+                            # Add to the CURRENT TIER'S list
+                            current_tier_data.append(player_data)
+
+                    except requests.exceptions.RequestException as e:
+                        print(f"Error fetching match details for {match_id}: {e}")
+
+                    time.sleep(1.2) # API rate limit
+
+        # SAVE DATA FOR THE TIER
+        print(f"\n--- Finished collecting data for {tier} ---")
+        if not current_tier_data:
+            print(f"No data was collected for {tier}. Skipping save.")
+            continue
+
+        print(f"Collected {len(current_tier_data) // 10} matches for {tier}.")
+
+        # Convert this tier's data to a DataFrame
+        df_tier = pd.DataFrame(current_tier_data)
+
+        # Save it to its own CSV file
+        output_filename = f"lol_match_data_{tier}.csv"
+        df_tier.to_csv(output_filename, index=False)
+
+        print(f"--- SUCCESS! ---")
+        print(f"Data for {tier} saved to {output_filename}")
+
+
+except KeyboardInterrupt:
+    print("\nScript interrupted by user. Exiting...")
+
+print("\n--- SCRIPT FINISHED ---")
