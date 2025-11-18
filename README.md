@@ -29,7 +29,7 @@ My analysis reveals that playing a "Meta" composition provides a significant sta
 
 ### Visualization
 
-**[Click Here to Interact with the Live Dashboard on Tableau Public](YOUR_TABLEAU_PUBLIC_LINK_HERE)**
+**[Click Here to Interact with the Live Dashboard on Tableau Public](https://public.tableau.com/views/LoL_Meta_Winrate_Project/NetMetaAdvantage?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)**
 
 *(Below is a static preview of the Net Advantage analysis)*
 
